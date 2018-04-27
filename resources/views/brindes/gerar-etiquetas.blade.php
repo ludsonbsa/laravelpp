@@ -5,7 +5,7 @@
             <th class="header">Data de Venda</th>
             <th class="header">CPF</th>
             <!--<th class="header">Produto</th>-->
-            <th class="header">Vendedora</th>
+            <th class="header">Responsável</th>
             <th class="header">E-mail</th>
             <th class="header" colspan="2">Ações</th>
         </tr>
@@ -18,7 +18,7 @@
                 <td>{!! $contato->data_de_venda !!}</td>
                 <td>{!! $contato->documento_usuario !!}</td>
                 <!--<td>{!! $contato->nome_do_produto !!}</td>-->
-                <td class="meio"><span>{!! $contato->at_nome_atendente !!}</span></td>
+                <td class="meio"><span>{!! $contato->user_nome !!}</span></td>
                 <td>{!! $contato->email !!}</td>
                 @if($contato->endereco != '' || !empty($contato->endereco))
                     <td><img src="/images/vcheck.png" width="25" class="icone" title="Endereço Válido"></td>
