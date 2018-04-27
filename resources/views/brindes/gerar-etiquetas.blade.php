@@ -25,7 +25,7 @@
                     <td></td>
                     @else
                     <td><img src="/images/alert.png" class="icone" title="Brinde não possui endereço!" alt="Brinde não possui endereço!" width="25"></td>
-                    <td><a href="{{route('admin.brindes.editar', $contato->id)}}"><img src="/images/editar.svg" width="25" class="icone"></a></td>
+                    <td><a href="{{route('admin.brindes.editar', $contato->idcontato)}}"><img src="/images/editar.svg" width="25" class="icone"></a></td>
                 @endif
 
             </tr>

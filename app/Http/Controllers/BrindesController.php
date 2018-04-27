@@ -162,7 +162,7 @@ t1.estado, t1.nome_do_produto, t1
     public function criar_etiquetas(){
 
           $query = DB::table('tb_contatos as t1')
-              ->selectRaw("t1.id, t1.documento_usuario, t1.endereco, t1.cep, t1.numero, t1.complemento, t1.bairro, t1.cidade, t1.cidade, t1.estado, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome")
+              ->selectRaw("t1.id as idcontato, t1.documento_usuario, t1.endereco, t1.cep, t1.numero, t1.complemento, t1.bairro, t1.cidade, t1.cidade, t1.estado, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome")
               ->join('users as t2','t1.id_responsavel','=','t2.id')
               ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND t1.etiqueta_gerada IS NULL AND t1.endereco IS NOT NULL AND t1.endereco != ''")
               ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
