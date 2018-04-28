@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/uploads/planilhas
+/public/uploads/etiquetas
+/public/uploads/livros
+/public/uploads/webnario
 /storage/*.key
 /vendor
 /.idea

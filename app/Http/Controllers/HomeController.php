@@ -115,13 +115,5 @@ class HomeController extends Controller
             endif;
         endif;
 
-       /*$caminho = public_path().'/uploads/hotmart.txt';
-        $fp = fopen($caminho, "a");
-
-        // Escreve "exemplo de escrita" no bloco1.txt
-        $escreve = fwrite($fp, $request);
-
-        // Fecha o arquivo
-        fclose($fp);*/
     }
 }

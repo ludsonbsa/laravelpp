@@ -46,7 +46,7 @@
 
                 <div class="field-wrap t60">
                     <label>E-mail:</label>
-                    <input type="email" name="email" required value="" class="t100" placeholder="">
+                    <input type="email" name="email" required value="" class="t100 mailverify" placeholder="">
                 </div>
 
 
@@ -98,4 +98,12 @@
     </section>
 
 </section>
+
+<script>
+    $(function(){
+        $('.mailverify').focusOut(function(){
+            alert('SAiu o foco');
+        });
+    });
+</script>
 @endsection
