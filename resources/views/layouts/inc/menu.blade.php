@@ -102,17 +102,17 @@
             <a href="{{route('admin.brindes.buscar')}}" title="Buscar Brinde" alt="[Buscar Brinde]">Buscar Brinde</a>
         </li>
         <li>
-            <a href="{{route('admin.listar.livro')}}" title="Livros" alt="[Livros]"><img src="/images/leads/brinde_menu.svg" width="30" title="" alt="">Brindes Livro</a>
+            <a href="{{route('admin.listar.livro')}}" title="Livros" alt="[Livros]"><img src="/images/leads/brinde_menu.svg" width="30" title="" alt="">Brindes Webnário</a>
 
         </li>
 
         <li class="sub">
-            <a href="{{route('admin.livro.add')}}" title="Add Livro" alt="[Add Livro]">Adicionar Livro</a>
+            <a href="{{route('admin.livro.add')}}" title="Add Livro" alt="[Add Livro]">Adicionar Webkit</a>
         </li>
 
 
         <li class="sub">
-            <a href="{{route('admin.livro.buscar')}}" title="Buscar Livro" alt="[Buscar Livro]">Buscar Livro</a>
+            <a href="{{route('admin.livro.buscar')}}" title="Buscar Livro" alt="[Buscar Livro]">Buscar Webkit</a>
         </li>
 
 
