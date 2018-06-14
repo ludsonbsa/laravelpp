@@ -44,7 +44,7 @@ class ComissoesController extends Controller
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t2.user_nome")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->where('t2.id','!=', 10) #Elimina usuário sistema
-            ->whereRaw("(t1.conferencia = 1 OR t1.conferencia = 2) AND t1.aprovado = 1 AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.comissao_gerada IS NULL) AND insercao_hotmart != 'Pagina Externa' AND insercao_hotmart != 'Pagina Externa WB 15-12'")
+            ->whereRaw("(t1.conferencia = 1) AND t1.aprovado = 1 AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.comissao_gerada IS NULL) AND insercao_hotmart != 'Pagina Externa' AND insercao_hotmart != 'Pagina Externa WB 15-12'")
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')->get();
 
@@ -54,7 +54,7 @@ class ComissoesController extends Controller
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t2.user_nome")
             ->where('t2.id','!=', 10) #Elimina usuário sistema
             ->join('users as t2','t1.id_responsavel','=','t2.id')
-            ->whereRaw("(t1.conferencia = 1 OR t1.conferencia = 2) AND t1.aprovado IS NULL AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND t2.id != 10 AND insercao_hotmart != 'Pagina Externa' AND insercao_hotmart != 'Pagina Externa WB 15-12'")
+            ->whereRaw("(t1.conferencia = 1) AND t1.aprovado IS NULL AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND t2.id != 10 AND insercao_hotmart != 'Pagina Externa' AND insercao_hotmart != 'Pagina Externa WB 15-12'")
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')->get();
 
@@ -93,7 +93,7 @@ class ComissoesController extends Controller
                     ->where('documento_usuario', '=', $cpf)
                     ->update($dados);
 
-            #Se não tiver CPF, e existir e-mail, então faz update para todos como aquele e-mail
+                #Se não tiver CPF, e existir e-mail, então faz update para todos como aquele e-mail
             }elseif(empty($cpf) && !empty($email)) {
                 #Digo qual é a query que ele vai fazer, é por email e aprovado
                 $query = "email";
@@ -107,7 +107,7 @@ class ComissoesController extends Controller
                     ->where('email', 'LIKE', $email)
                     ->update($dados);
 
-            #Se não tiver CPF, e e nem e-mail, então faz update para todos como telefone
+                #Se não tiver CPF, e e nem e-mail, então faz update para todos como telefone
             }elseif (empty($email) && empty($cpf)) {
                 #Digo qual é a query que ele vai fazer, é por telefone e aprovado
                 $query = "telefone";
@@ -219,11 +219,10 @@ class ComissoesController extends Controller
 
     public function comissionar_pendentes(){
         $query = DB::table('tb_contatos as t1')
-            ->selectRaw("t1.id, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome, t2.id")
+            ->selectRaw("t1.id as idcontato, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome, t2.id")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
-            ->whereRaw("(t1.conferencia = 1 OR t1.conferencia = 2) AND t1.aprovado = 1 AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != 
+            ->whereRaw("(t1.conferencia = 1) AND t1.aprovado = 1 AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != 
             NULL) AND (t1.comissao_gerada IS NULL AND insercao_hotmart != 'Pagina Externa' AND insercao_hotmart != 'Pagina Externa WB 15-12')")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')
             ->get();
@@ -294,18 +293,36 @@ class ComissoesController extends Controller
 
         #Criar Planilha de Comissão Geral
         $queryPlanilha = DB::table('tb_contatos as t1')
-            ->selectRaw("t1.id, t1.email, t1.aprovado, t1.nome_do_produto, t1.conferencia, t1.comissao_gerada, t2.at_id_contato, t2.at_id_responsavel, t2.at_nome_atendente, t2.at_final_atendimento")
+            ->selectRaw("t1.id, t1.email, t1.aprovado, t1.nome_do_produto, t1.id_responsavel, t1.conferencia, t1.comissao_gerada, t2.at_id_contato, t2.at_id_responsavel, t2.at_nome_atendente, t2.at_final_atendimento")
             ->join('tb_atendimento as t2','t1.id','=','t2.at_id_contato')
             ->whereRaw("(t1.aprovado = 1 AND t1.conferencia = 1) AND (t1.comissao_gerada = 1) AND completo = 1")
             ->get();
 
+        #Fazer Query também puxando dados do responsavel, pra adicionar junto no foreach de cada produto
         #Verificar se o mês das vendas equivalem ao mês atual?...
 
         $csv = new Helpers\CSV();
 
         foreach ($queryPlanilha as $comissoesMes):
-            $csv->addLine(new Helpers\CSVLine($comissoesMes->at_id_responsavel, $comissoesMes->at_id_contato, $comissoesMes->at_final_atendimento, $comissoesMes->nome_do_produto, $comissoesMes->at_nome_atendente));
+            $csv->addLine(new Helpers\CSVLine($comissoesMes->at_id_responsavel, $comissoesMes->at_id_contato, $comissoesMes->at_final_atendimento, $comissoesMes->nome_do_produto, $comissoesMes->at_nome_atendente,
+                $comissoesMes->id_responsavel));
+
+            #Faço a busca pra pegar somente do id requisitado
+            $queryResp = DB::table('tb_contatos as t1')
+                ->selectRaw("t1.id, t1.email, t1.aprovado, t1.nome_do_produto, t1.id_responsavel, t1.conferencia, t1.comissao_gerada, t1.updated_at, t2.user_nome, t2.id as userid")
+                ->join('users as t2','t1.id_responsavel','=','t2.id')
+                ->whereRaw("(t1.aprovado = 1 AND t1.conferencia = 1) AND (t1.comissao_gerada = 1) AND completo = 1 AND t1.id = {$comissoesMes->id}")
+                ->get();
+
+            foreach($queryResp as $comissaoResp):
+
+                #Adiciono numa nova linha esse achado
+                $csv->addLine(new Helpers\CSVLine($comissaoResp->id_responsavel, $comissaoResp->id, $comissaoResp->updated_at, $comissaoResp->nome_do_produto, $comissaoResp->user_nome,
+                    $comissaoResp->userid));
+            endforeach;
+
         endforeach;
+
         $csv->save("uploads/planilhas/comissoes-geradas-".date('d-m H').".csv");
 
         foreach ($queryPlanilha as $contato) {
@@ -322,7 +339,7 @@ class ComissoesController extends Controller
         $this->geraPlanilha();
 
         #Tem que deletar pra não duplicar comissões
-        $deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
+        //$deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
 
         return response()->redirectToRoute('admin.comissoes.listar');
 
@@ -348,11 +365,16 @@ class ComissoesController extends Controller
             $mes_e_ano = $data[2];
             $produto = $data[3];
             $atendenteNome = $data[4];
+            $responsavel = $data[5];
 
             #Aqui ele pega a data de final de atendimento e atribui ao mês para gerar comissão
             $mes = date('m', strtotime($data[2]));
             $ano = date('Y', strtotime($data[2]));
 
+            #Tem que fazer a verificação :
+            # Se existir mais de um mesmo contato na planilha, contar quantos tem, pegar
+            # o valor da comissão e dividir pela quantidade (Esperando definição do Ruy e Vitor)
+            # Ou pré definir por usuário o valor da comissão de cada produto?
 
             switch ($produto):
                 case 'Programa Mulheres Bem Resolvidas':
@@ -373,6 +395,7 @@ class ComissoesController extends Controller
                         'com_mes' => $mes,
                         'com_produto' => $produto,
                         'com_valor_produto' => $valor_produto,
+                        #dividido por 2 devido ao split de comissões por serem 2 envolvidos
                         'com_final' => $comissao,
                         'com_pago' => 0
                     ];
@@ -389,20 +412,20 @@ class ComissoesController extends Controller
                         ->get();
 
                     foreach($queryProd as $p);
-                        $valor_produto = $p->prod_valor_do_produto;
-                        $comissao = $p->prod_valor_comissao;
+                    $valor_produto = $p->prod_valor_do_produto;
+                    $comissao = $p->prod_valor_comissao;
 
-                        $dadosEntrada = [
-                            'com_id_user' => $id_atendente,
-                            'com_id_contato' => $id_contato,
-                            'com_ano' => $ano,
-                            'com_mes' => $mes,
-                            'com_produto' => $produto,
-                            'com_valor_produto' => $valor_produto,
-                            'com_final' => $comissao,
-                            'com_pago' => 0
-                        ];
-                        DB::table('tb_comissoes')->insert($dadosEntrada);
+                    $dadosEntrada = [
+                        'com_id_user' => $id_atendente,
+                        'com_id_contato' => $id_contato,
+                        'com_ano' => $ano,
+                        'com_mes' => $mes,
+                        'com_produto' => $produto,
+                        'com_valor_produto' => $valor_produto,
+                        'com_final' => $comissao,
+                        'com_pago' => 0
+                    ];
+                    DB::table('tb_comissoes')->insert($dadosEntrada);
 
                     break;
 
@@ -446,7 +469,7 @@ class ComissoesController extends Controller
             ->orderBy('t1.com_id','DESC')
             ->get();
 
-    $count = $query->count();
+        $count = $query->count();
 
         return view('comissoes.comissoes-geradas', ['contatos' => $query, 'contagem' => $count]);
     }
