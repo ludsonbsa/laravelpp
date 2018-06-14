@@ -339,7 +339,7 @@ class ComissoesController extends Controller
         $this->geraPlanilha();
 
         #Tem que deletar pra não duplicar comissões
-        //$deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
+        $deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
 
         return response()->redirectToRoute('admin.comissoes.listar');
 
