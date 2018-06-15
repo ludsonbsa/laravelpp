@@ -5,51 +5,51 @@
 <p><img src="https://mbr.digital/public/assets/admin/images/uiface2.png" alt="" height="40" width="40" /> Bem-vindo  Ludson Almeida </p>
 </div>-->
 
-<div class="container">
-    <div class="buttons">
+    <div class="container">
+        <div class="buttons">
 
-        <form action="{{route('admin.leads.search')}}" method="post">
-            {!!csrf_field()!!}
-            <input type="search" id="aa-search-input" class="" placeholder="Pesquisar" name="search" autocomplete="on" spellcheck="false" ng-keyup="search()" ng-model="query" style="margin-right:-40px; max-width: 70%"/>
-        </form>
+            <form action="{{route('admin.leads.search')}}" method="post">
+                {!!csrf_field()!!}
+                <input type="search" id="aa-search-input" class="" placeholder="Pesquisar" name="search" autocomplete="on" spellcheck="false" ng-keyup="search()" ng-model="query" style="margin-right:-40px; max-width: 70%"/>
+            </form>
 
-    </div>
+        </div>
 
-    <div class="buttons">
-        <ul><!-- Atendente -->
-            <a href="{{route('admin.lead.add')}}" title="MBR Follow Up - Adicionar Lead" alt="[Adicionar Lead]">
-                <li><img src="/images/leads/new_lead.svg" width="20" class="icone" title="MBR Follow Up - Adicionar Lead" alt="[Adicionar Lead]"></li>
-            </a>
-            @if(\Auth::user()->role == 3 OR \Auth::user()->role == 2)
+        <div class="buttons">
+            <ul><!-- Atendente -->
+                <a href="{{route('admin.lead.add')}}" title="MBR Follow Up - Adicionar Lead" alt="[Adicionar Lead]">
+                    <li><img src="/images/leads/new_lead.svg" width="20" class="icone" title="MBR Follow Up - Adicionar Lead" alt="[Adicionar Lead]"></li>
+                </a>
+                @if(\Auth::user()->role == 3 OR \Auth::user()->role == 2)
 
                 @else
-                <a href="{{route('admin.importar')}}" title="MBR Follow Up - Importar" alt="[Importar]">
-                    <li><img src="/images/leads/upload.svg" width="20" class="icone" title="MBR Follow Up - Importar Planilha" alt="[Importar Planilha]"></li>
-                </a>
+                    <a href="{{route('admin.importar')}}" title="MBR Follow Up - Importar" alt="[Importar]">
+                        <li><img src="/images/leads/upload.svg" width="20" class="icone" title="MBR Follow Up - Importar Planilha" alt="[Importar Planilha]"></li>
+                    </a>
                 @endif
 
 
 
-            <a href="http://mbrsuporte.helpsite.io/" class="html5lightbox" title="MBR Follow Up - Notificações" alt="[Notificações]">
+                <a href="#" onclick="_urq.push(['Feedback_Open'])">
 
-                <li><img src="/images/leads/ajuda.svg" width="20" class="icone" title="MBR Follow Up - Help" alt="[Help]">
-                </li>
-            </a>
+                    <li><img src="/images/leads/ajuda.svg" width="20" class="icone" title="MBR Follow Up - Help" alt="[Help]">
+                    </li>
+                </a>
 
-            <a href="{{ route('admin.editar.usuario', Auth::user()->id) }}" style="color:#333" class="userperfil" title="Ver
+                <a href="{{ route('admin.editar.usuario', Auth::user()->id) }}" style="color:#333" class="userperfil" title="Ver
              Perfil"><li>
-                    <div class="foto">{!! Auth::user()->user_nome !!}</div>
-                    <span>{!! Auth::user()->role_name !!}</span>
-                    <img src="{{ Auth::user()->avatar }}" width="40" height="40" class="atendente perfilEdit">
+                        <div class="foto">{!! Auth::user()->user_nome !!}</div>
+                        <span>{!! Auth::user()->role_name !!}</span>
+                        <img src="{{ Auth::user()->avatar }}" width="40" height="40" class="atendente perfilEdit">
 
-                </li></a>
-            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-                <?php echo csrf_field(); ?>
-            </form>
-            <a href="{{ route('admin.logout') }}" title="MBR Follow Up - Logout" alt="[Logout]" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><li><img src="/images/leads/logout.svg" width="20" class="icone"></li></a>
+                    </li></a>
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                    <?php echo csrf_field(); ?>
+                </form>
+                <a href="{{ route('admin.logout') }}" title="MBR Follow Up - Logout" alt="[Logout]" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><li><img src="/images/leads/logout.svg" width="20" class="icone"></li></a>
 
-        </ul>
-    </div>
+            </ul>
+        </div>
 </section>
 
 <!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
