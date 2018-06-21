@@ -33,9 +33,13 @@
 </table>
 
 @if($contagem != 0)
+    <h3 style="font-size:18px; float:left; font-weight: 500; color:#636363; margin-top:8px; padding:17px;">Você precisa aprovar/reprovar {{$contagem}}  brindes</h3>
     <div class="field-wrap" style="float: right;">
+
         <a href="{{route('admin.brindes.gerarpdf-aprovarmanual')}}" class="enviar"><button class="enviar">Gerar PDF</button></a>
     </div>
+    @else
+    <h3 style="font-size:18px; float:left; font-weight: 500; color:#636363; margin-top:8px; padding:17px;">Nada para aprovar/reprovar</h3>
 @endif
 
 

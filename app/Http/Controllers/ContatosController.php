@@ -26,8 +26,7 @@ class ContatosController extends Controller
             ->whereNull('t1.pos_atendimento')
             ->whereNotNull('t1.telefone')
             ->where('t1.telefone', '!=','')
-            ->where('t1.status','!=', 'Boleto Impresso')
-            ->where('t1.status','!=', 'Expirado')
+            ->whereNotIn('t1.status',['Aprovado', 'Completo','Boleto Impresso', 'Boleto Gerado'])
             ->groupBy('t1.email')
             ->orderBy('t1.id','DESC')
             ->paginate(100);

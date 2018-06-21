@@ -40,15 +40,13 @@
     }else{
     ?>
 
+    <h3 style="font-size:18px; float:left; font-weight: 500; color:#636363; margin-top:8px; padding:17px">Você precisa gerar {{$contagem}} etiquetas</h3>
+
     <div class="field-wrap" style="float: right; width: auto !important;" >
+        <a href="{{route('admin.brindes.gerarpdf-pendentes')}}" class="enviar"><button class="enviar">Gerar PDF</button></a>
         <a href="{{route('admin.brindes.criar-etiquetas')}}" class="enviar"><button class="enviar" type="submit">Gerar Etiquetas</button></a>
     </div>
 
     <?php
     }
     ?>
-
-<div class="field-wrap" style="float: right;">
-    <a href="{{route('admin.brindes.gerarpdf-pendentes')}}" class="enviar"><button class="enviar">Gerar PDF</button></a>
-</div>
-

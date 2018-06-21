@@ -7,6 +7,16 @@
 
     <h1 style="font-size:25px; font-weight: bold; color:#636363; margin-bottom:20px;">Editar Usuário</h1>
 
+    @if(session()->has('msg'))
+        <div class='alert alert-success'>
+            {!! session('msg') !!}
+        </div>
+    @elseif(session()->has('msg-error'))
+        <div class='alert alert-danger'>
+            {!!  session('msg-error') !!}
+        </div>
+    @endif
+
     <section class="widget" style="min-height:700px;">
 
         <div class="faixa"></div>
@@ -44,7 +54,6 @@
                         <p>Nome Completo:</p>
 
                         <input type="text" name="user_nome" class="t100" required value="{!! $user->user_nome  !!}" placeholder="">
-
                     </div>
 
 
@@ -118,7 +127,7 @@
 
                             <option value="5">At. Temporário</option>
 
-                            <option value="At. Temporário">At. Temporário</option>
+                            <option value="6">At. Temporário</option>
 
                         </select>
 
@@ -153,14 +162,18 @@
                     <br>
 
                     <div class="field-wrap t100">
-
                         <button type="submit" name="sendForm" class="enviar">Editar Usuário</button>
                     </div>
 
                 </div><!-- final da sessao field wrap -->
 
-
             </form>
+
+
+            <div class="field-wrap t100" style="margin-left:-110px;">
+                <a href="#" class="senhas"><button class="enviar">Cadastrar Nova Senha</button></a>
+            </div>
+            @include('modalSenha')
 
         </div>
 

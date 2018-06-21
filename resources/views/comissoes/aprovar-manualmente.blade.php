@@ -33,7 +33,9 @@
 </table>
 
 @if($contagem != 0)
-<div class="field-wrap" style="float: right;">
+    <div class="field-wrap" style="float:right; margin-top:0px; padding:17px; width:96.75%;">
+        <h3 style="font-size:18px; float:left; font-weight: 500; color:#636363; margin-top:8px;">Você precisa aprovar ou reprovar {{$contagem}} registros</h3>
+
     <a href="{{route('admin.comissoes.relatorio')}}" class="enviar"><button class="enviar">Gerar PDF</button></a>
 </div>
 @endif

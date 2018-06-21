@@ -93,7 +93,7 @@ class ComissoesController extends Controller
                     ->where('documento_usuario', '=', $cpf)
                     ->update($dados);
 
-                #Se não tiver CPF, e existir e-mail, então faz update para todos como aquele e-mail
+            #Se não tiver CPF, e existir e-mail, então faz update para todos como aquele e-mail
             }elseif(empty($cpf) && !empty($email)) {
                 #Digo qual é a query que ele vai fazer, é por email e aprovado
                 $query = "email";
@@ -107,7 +107,7 @@ class ComissoesController extends Controller
                     ->where('email', 'LIKE', $email)
                     ->update($dados);
 
-                #Se não tiver CPF, e e nem e-mail, então faz update para todos como telefone
+            #Se não tiver CPF, e e nem e-mail, então faz update para todos como telefone
             }elseif (empty($email) && empty($cpf)) {
                 #Digo qual é a query que ele vai fazer, é por telefone e aprovado
                 $query = "telefone";
@@ -339,7 +339,7 @@ class ComissoesController extends Controller
         $this->geraPlanilha();
 
         #Tem que deletar pra não duplicar comissões
-        $deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
+        //$deletar = unlink('uploads/planilhas/comissoes-geradas-'.date('d-m H').'.csv');
 
         return response()->redirectToRoute('admin.comissoes.listar');
 
@@ -396,7 +396,7 @@ class ComissoesController extends Controller
                         'com_produto' => $produto,
                         'com_valor_produto' => $valor_produto,
                         #dividido por 2 devido ao split de comissões por serem 2 envolvidos
-                        'com_final' => $comissao,
+                        'com_final' => $comissao/2,
                         'com_pago' => 0
                     ];
                     DB::table('tb_comissoes')->insert($dadosEntrada);
@@ -412,20 +412,20 @@ class ComissoesController extends Controller
                         ->get();
 
                     foreach($queryProd as $p);
-                    $valor_produto = $p->prod_valor_do_produto;
-                    $comissao = $p->prod_valor_comissao;
+                        $valor_produto = $p->prod_valor_do_produto;
+                        $comissao = $p->prod_valor_comissao;
 
-                    $dadosEntrada = [
-                        'com_id_user' => $id_atendente,
-                        'com_id_contato' => $id_contato,
-                        'com_ano' => $ano,
-                        'com_mes' => $mes,
-                        'com_produto' => $produto,
-                        'com_valor_produto' => $valor_produto,
-                        'com_final' => $comissao,
-                        'com_pago' => 0
-                    ];
-                    DB::table('tb_comissoes')->insert($dadosEntrada);
+                        $dadosEntrada = [
+                            'com_id_user' => $id_atendente,
+                            'com_id_contato' => $id_contato,
+                            'com_ano' => $ano,
+                            'com_mes' => $mes,
+                            'com_produto' => $produto,
+                            'com_valor_produto' => $valor_produto,
+                            'com_final' => $comissao/2,
+                            'com_pago' => 0
+                        ];
+                        DB::table('tb_comissoes')->insert($dadosEntrada);
 
                     break;
 
@@ -448,7 +448,7 @@ class ComissoesController extends Controller
                         'com_mes' => $mes,
                         'com_produto' => $produto,
                         'com_valor_produto' => $valor_produto,
-                        'com_final' => $comissao,
+                        'com_final' => $comissao/2,
                         'com_pago' => 0
                     ];
                     DB::table('tb_comissoes')->insert($dadosEntrada);
@@ -469,7 +469,7 @@ class ComissoesController extends Controller
             ->orderBy('t1.com_id','DESC')
             ->get();
 
-        $count = $query->count();
+    $count = $query->count();
 
         return view('comissoes.comissoes-geradas', ['contatos' => $query, 'contagem' => $count]);
     }

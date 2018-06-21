@@ -89,12 +89,36 @@ class UserController extends Controller
 
     public function editar_update(Request $request, $id)
     {
-        $param = $request->all();
 
-        $param = $request->except(['_token','sendForm']);
+        $param = $request->all('user_nome','email','role','role_name','status');
+
+        switch ($param['role']){
+            case 1:
+                $param['role_name'] = 'Administrador';
+                break;
+
+            case 2:
+                $param['role_name'] = 'Responsável';
+                break;
+
+            case 3:
+                $param['role_name'] = 'Atendente';
+                break;
+
+            case 4:
+                $param['role_name'] = 'Suporte';
+                break;
+
+            case 5:
+                $param['role_name'] = 'At. Temporário';
+                break;
+
+        }
+
         $validator = Validator::make($request->all(), [
             'file' => 'max:500000',
         ]);
+
 
 
         if($request->hasFile('avatar')){
@@ -105,12 +129,10 @@ class UserController extends Controller
             try{
                 $file->move($destinationPath, $filename);
 
-            }catch (FileNotFoundException $e){
+            }catch (\FileNotFoundException $e){
                 echo $e;
             }
             $param['avatar'] = '/uploads/avatar/'.$filename;
-        }else{
-            $param = $request->except(['_token','sendForm','avatar']);
         }
 
 
@@ -144,5 +166,30 @@ class UserController extends Controller
         User::destroy($id);
 
         return response()->redirectToRoute('admin.listar.usuarios');
+    }
+
+    public function cadastrar_senha(Request $request, $id){
+        $senha = $request->input('password');
+        $confirm_senha = $request->input('confirm_password');
+
+
+        if($confirm_senha == $senha && !empty($senha)){
+
+            #Encripto a senha
+            $password = bcrypt($senha);
+
+            #Seleciono o usuário
+            $user = User::where('id', '=', $id);
+            $param = [
+                'password' => $password
+            ];
+            $user->update($param);
+
+            return redirect()->route('admin.editar.usuario',$id)->with('msg',"Senha cadastrada com sucesso.");
+
+        }else{
+            return redirect()->route('admin.editar.usuario',$id)->with('msg-error',"Senha não cadastrada, campo senha não pode estar vazio ou senhas não batem.");
+        }
+
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="content" style="background:url('/images/bglead.jpg') repeat-x #f0f0f0;">
-    <h1 style="font-size:25px; font-weight: bold; margin-bottom:20px;">Conferência de Livros<a href='#' id="refresher" title="Atualizar Dados"><img src="/images/refresh.svg" width="25" class="refresher" /></a></h1>
+    <h1 style="font-size:25px; font-weight: bold; margin-bottom:20px;">Conferência de KIT Webnário<a href='#' id="refresher" title="Atualizar Dados"><img src="/images/refresh.svg" width="25" class="refresher" /></a></h1>
 
 
     <div class="tabs-content">
@@ -10,7 +10,6 @@
         <div class="tabs-menu">
                 <ul>
                     <li><a class="active-tab-menu" href="#1" data-tab="livro-tab1">Conferir Livros</a></li>
-                    <li><a href="#2" data-tab="livro-tab2">Resultado de Conferência</a></li>
                     <li><a href="#3" data-tab="livro-tab3">Aprovar Manualmente</a></li>
                     <li><a href="#4" data-tab="livro-tab4">Gerar Etiquetas Pendentes</a></li>
                     <li><a href="#5" data-tab="livro-tab5">Baixar Etiquetas</a></li>

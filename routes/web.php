@@ -122,6 +122,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
         Route::post('usuarios/editar-update/{id}', 'UserController@editar_update')->name('editar-update.usuario');
 
+        Route::post('usuarios/cadastrar_senha/{id}', 'UserController@cadastrar_senha')->name('cadastrar_senha.usuario');
+
         Route::get('usuarios/status/{status}/{id}', [
             'uses' => 'UserController@status',
         ])->name('status');
@@ -216,7 +218,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /*******EXTERNO***********/
     Route::any('infusion/', 'HomeController@infusion')->name('infusion');
+    Route::any('brinde/wb-pp/', 'HomeController@wb_brinde')->name('webnario');
+    Route::any('brinde/pp/',  'HomeController@brinde_pp')->name('brinde-pp');
     Route::any('hotmart/', 'HomeController@hotmart')->name('hotmart');
+    Route::any('form-hotmart/', 'HomeController@form_hotmart')->name('formhotmart');
 
     Route::get('form/', 'HomeController@form')->name('infusion.form');
 

@@ -17,7 +17,7 @@ class BrindesController extends Controller
         ->selectRaw('t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.ddd, t1.insercao_hotmart, t1.id_responsavel, t2.user_nome')
             ->join('users as t2', 't1.id_responsavel', '=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 0 AND t1.enviar_kit = 1) AND (t1.pos_atendimento = 'Boleto Gerado' OR t1.pos_atendimento = 'Vendido')")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id', 'ASC')
             ->paginate(25);
@@ -37,7 +37,7 @@ class BrindesController extends Controller
         $emailBusca = $request['buscarBrinde'];
         $brindes = \DB::table('tb_contatos as t1')
             ->selectRaw('t1.id, t1.nome, t1.email, t1.cep, t1.data_de_venda, t1.etiqueta_gerada, t1.endereco, t1.bairro, t1.complemento, t1.aprovado, t1.completo, t1.cidade, t1.estado, t1.numero, t1.enviar_kit')
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->where('t1.enviar_kit', '=', 1)
             ->where('t1.email','=',$emailBusca)
             ->orWhere('t1.cep', '=', $emailBusca)
@@ -64,7 +64,7 @@ t1.estado, t1.nome_do_produto, t1
             .telefone, t1.ddd, t1
             .insercao_hotmart')
             ->where('t1.id','=', $id)
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->get();
         return view('brindes.editar', ['brindes' => $brindes]);
     }
@@ -112,9 +112,9 @@ t1.estado, t1.nome_do_produto, t1
         $all['conferencia'] = 2;
 
         if(Brindes::create($all)){
-            $msg = '<div class="alert alert-success"><strong>Brinde</strong> cadastrado com sucesso</div>';
+            $msg = 'Brinde cadastrado com sucesso';
         }else{
-            $msg = '<div class="alert alert-danger"><strong>Brinde</strong> não cadastrado</div>';
+            $msg = 'Brinde não cadastrado';
         }
         return response()->redirectToRoute('admin.brindes.add')->with('msg',$msg);
     }
@@ -125,7 +125,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t2.user_nome")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado IS NULL) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')->get();
 
@@ -135,7 +135,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t2.user_nome")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.etiqueta_gerada IS NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')->get();
         $countBAP = $queryBrindesAP->count();
@@ -149,7 +149,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t2.user_nome")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado IS NULL) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')
             ->get();
@@ -162,10 +162,10 @@ t1.estado, t1.nome_do_produto, t1
     public function criar_etiquetas(){
 
           $query = DB::table('tb_contatos as t1')
-              ->selectRaw("t1.id as idcontato, t1.documento_usuario, t1.endereco, t1.cep, t1.numero, t1.complemento, t1.bairro, t1.cidade, t1.cidade, t1.estado, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome")
+              ->selectRaw("t1.id, t1.documento_usuario, t1.endereco, t1.cep, t1.numero, t1.complemento, t1.bairro, t1.cidade, t1.cidade, t1.estado, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t2.user_nome")
               ->join('users as t2','t1.id_responsavel','=','t2.id')
               ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND t1.etiqueta_gerada IS NULL AND t1.endereco IS NOT NULL AND t1.endereco != ''")
-              ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+              ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
               ->groupBy('t1.email')
               ->orderBy('t1.id','DESC')
               ->get();
@@ -214,7 +214,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw("t1.id, t1.documento_usuario, t1.nome_do_produto, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart,t1.ddd, t1.endereco, t2.user_nome")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado IS NULL) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id','ASC')
             ->get();
@@ -250,22 +250,13 @@ t1.estado, t1.nome_do_produto, t1
     public function gerar_etiquetas()
     {
         $query = DB::table('tb_contatos as t1')
-            ->selectRaw("t1.id as idcontato, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t1.endereco, t2.user_nome")
+            ->selectRaw("t1.id as idcontato, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t1.endereco, t2.user_nome, t2.id")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.etiqueta_gerada IS NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
-            ->orderBy('t1.id','ASC')->get();
-
-        /*$query = DB::table('tb_contatos as t1')
-            ->selectRaw("t1.id, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t1.endereco, t3.at_nome_atendente, t2.user_nome")
-            ->join('tb_atendimento as t3', 't3.at_id_contato', '=', 't1.id')
-            ->join('users as t2','t1.id_responsavel','=','t2.id')
-            ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.etiqueta_gerada IS NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
-            ->groupBy('t1.documento_usuario')
             ->orderBy('t1.data_de_venda','ASC')
-            ->get();*/
+            ->get();
         $count = $query->count();
 
         return view('brindes.gerar-etiquetas', ['contatos' => $query, 'contagem' => $count]);
@@ -276,7 +267,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw("t1.id, t1.nome_do_produto, t1.data_de_venda, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.insercao_hotmart, t1.endereco, t2.user_nome, t2.id")
             ->join('users as t2','t1.id_responsavel','=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 1 AND t1.aprovado = 1) AND (t1.pos_atendimento != 1 OR t1.pos_atendimento != NULL) AND (t1.etiqueta_gerada IS NULL)")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.data_de_venda','ASC')
             ->get();
@@ -317,7 +308,7 @@ t1.estado, t1.nome_do_produto, t1
             ->selectRaw('t1.id, t1.documento_usuario, t1.nome, t1.email, t1.telefone, t1.ddd, t1.insercao_hotmart, t2.user_nome')
             ->join('users as t2', 't1.id_responsavel', '=','t2.id')
             ->whereRaw("(t1.conferencia_brinde = 0 AND t1.enviar_kit = 1) AND (t1.pos_atendimento = 'Boleto Gerado' OR t1.pos_atendimento = 'Vendido')")
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->groupBy('t1.email')
             ->orderBy('t1.id', 'ASC')
             ->get();
@@ -378,7 +369,7 @@ t1.estado, t1.nome_do_produto, t1
         $dados = [ 'aprovado' => 1 ];
         $query = DB::table('tb_contatos as t1')
             ->selectRaw('t1.email, t1.id')
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->where('t1.id','=', $id)
             ->get();
 
@@ -389,7 +380,7 @@ t1.estado, t1.nome_do_produto, t1
 
             #faço update em todos os e-mails deste registro.
             DB::table('tb_contatos')
-                ->where('insercao_hotmart', '!=', 'Página Externa LMBR')
+                ->where('insercao_hotmart', '!=', 'Add Brinde Webnário')
                 ->where('email', 'LIKE', $email)
                 ->update($dados);
         }
@@ -399,7 +390,7 @@ t1.estado, t1.nome_do_produto, t1
         $dados = [ 'aprovado' => 0 ];
         $query = DB::table('tb_contatos as t1')
             ->selectRaw('t1.email, t1.id')
-            ->where('t1.insercao_hotmart', '!=', 'Página Externa LMBR')
+            ->where('t1.insercao_hotmart', '!=', 'Add Brinde Webnário')
             ->where('t1.id','=', $id)
             ->get();
 
@@ -410,7 +401,7 @@ t1.estado, t1.nome_do_produto, t1
 
             #faço update em todos os e-mails deste registro.
             DB::table('tb_contatos')
-                ->where('insercao_hotmart', '!=', 'Página Externa LMBR')
+                ->where('insercao_hotmart', '!=', 'Add Brinde Webnário')
                 ->where('email', 'LIKE', $email)
                 ->update($dados);
         }

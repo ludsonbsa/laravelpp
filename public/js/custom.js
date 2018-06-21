@@ -140,6 +140,18 @@ $(function() {
     });
 
 
+    $('.senhas').click(function(){
+        //Abro a modal
+        $('.modalsenha').fadeIn('500');
+        $('.modal .idlead').text(nome+' <'+email+'> ?');
+
+        var trocar ='/admin/leads/deletar/'+dados;
+        //Atribuo o URL de delete com o id chamado
+        $('.dataRoute').attr('href', trocar);
+        //Jogar as informações do lead pra dentro dos atributos e jogar no alert
+    });
+
+
 
     $('button[data-dismiss=modal]').click( function(e){
         e.preventDefault();

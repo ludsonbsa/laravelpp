@@ -9,7 +9,6 @@
             <div class="tabs-menu">
                 <ul>
                     <li><a class="active-tab-menu" href="#1" data-tab="com-tab1">Conferir Vendas</a></li>
-                    <li><a href="#2" data-tab="com-tab2">Vendas Conferidas</a></li>
                     <li><a href="#3" data-tab="com-tab3">Aprovar Manualmente</a></li>
                     <li><a href="#4" data-tab="com-tab4">Comissionar Pendentes</a></li>
                     <li><a href="#5" data-tab="com-tab5">Comissões Geradas</a></li>

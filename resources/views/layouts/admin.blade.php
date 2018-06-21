@@ -27,11 +27,11 @@
 <body>
 <div id="app">
     <?php
-    $checar = \Auth::check();
-    if($checar == true):
+       $checar = \Auth::check();
+       if($checar == true):
     ?>
-    @include('layouts.inc.header');
-    @include('layouts.inc.menu');
+        @include('layouts.inc.header');
+        @include('layouts.inc.menu');
 
     <?php endif; //Checar se está logado ?>
     @yield('content')

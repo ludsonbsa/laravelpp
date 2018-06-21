@@ -10,7 +10,6 @@
         <div class="tabs-menu">
                 <ul>
                     <li><a class="active-tab-menu" href="#1" data-tab="brinde-tab1">Conferir Brinde</a></li>
-                    <li><a href="#2" data-tab="brinde-tab2">Resultado de Conferência</a></li>
                     <li><a href="#3" data-tab="brinde-tab3">Aprovar Manualmente</a></li>
                     <li><a href="#4" data-tab="brinde-tab4">Gerar Etiquetas Pendentes</a></li>
                     <li><a href="#5" data-tab="brinde-tab5">Baixar Etiquetas</a></li>

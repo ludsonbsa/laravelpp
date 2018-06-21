@@ -3,7 +3,7 @@
 @section('content')
     <section class="content" style="background:url('/images/bglead.jpg') repeat-x #f0f0f0;">
         {!! Session::get('message')  !!}
-        <h1 style="font-size:25px; font-weight: bold; color:#636363; margin-bottom:20px;">Editar Brinde</h1>
+        <h1 style="font-size:25px; font-weight: bold; color:#636363; margin-bottom:20px;">Editar Brinde Webnário</h1>
 
         <section class="widget" style="min-height:560px;">
 
