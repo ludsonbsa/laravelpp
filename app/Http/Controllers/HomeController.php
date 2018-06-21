@@ -174,9 +174,7 @@ class HomeController extends Controller
 
                 }
                 $HotmartLog .= "{$key}: {$value}\r\n";
-
-
-                Contatos::firstOrNew();
+            
 
 
             endforeach;
