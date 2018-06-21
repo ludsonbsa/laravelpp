@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Brindes;
+use App\Contatos;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    private $status;
 
     public function index()
     {
@@ -156,9 +159,26 @@ class HomeController extends Controller
             foreach ($HotmartSale as $key => $value):
                 switch ($key){
                     case 'status':
-                        $this->getWcHotmartStatus($key);
+                        getWcHotmartStatus($key);
+                        $status = $value;
+                        $this->status = $value;
+                        break;
+                    #The Magic goes here
+                    case 'email':
+                        $dado = ['status' =>  $this->status];
+                        $sel = DB::table('tb_contatos')
+                            ->where('email','LIKE', $value)
+                            ->update($dado);
+                        break;
+
+
                 }
                 $HotmartLog .= "{$key}: {$value}\r\n";
+
+
+                Contatos::firstOrNew();
+
+
             endforeach;
 
             $HotmartLogFile = fopen(public_path().'/uploads/hotmart.txt', 'a');
