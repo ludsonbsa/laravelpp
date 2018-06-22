@@ -164,17 +164,16 @@ class HomeController extends Controller
                         $this->status = $value;
                         break;
                     #The Magic goes here
+
                     case 'email':
                         $dado = ['status' =>  $this->status];
                         $sel = DB::table('tb_contatos')
                             ->where('email','LIKE', $value)
                             ->update($dado);
                         break;
-
-
                 }
                 $HotmartLog .= "{$key}: {$value}\r\n";
-            
+
 
 
             endforeach;
@@ -208,6 +207,6 @@ class HomeController extends Controller
     }
 
     public function form_hotmart(){
-        return view('formpost');
+        return view('formhotmart');
     }
 }
