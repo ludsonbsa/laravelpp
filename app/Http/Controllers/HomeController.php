@@ -125,6 +125,8 @@ class HomeController extends Controller
 
     public function hotmart(Request $request){
 
+        var_dump($request->all());
+
         function getWcHotmartStatus($Status = null)
         {
             $HotmartStatus = [
@@ -207,6 +209,6 @@ class HomeController extends Controller
     }
 
     public function form_hotmart(){
-        return view('formhotmart');
+        return view('formpost');
     }
 }

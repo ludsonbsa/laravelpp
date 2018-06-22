@@ -396,7 +396,7 @@ class ComissoesController extends Controller
                         'com_produto' => $produto,
                         'com_valor_produto' => $valor_produto,
                         #dividido por 2 devido ao split de comissões por serem 2 envolvidos
-                        'com_final' => $comissao/2,
+                        'com_final' => $comissao,
                         'com_pago' => 0
                     ];
                     DB::table('tb_comissoes')->insert($dadosEntrada);
@@ -422,7 +422,7 @@ class ComissoesController extends Controller
                             'com_mes' => $mes,
                             'com_produto' => $produto,
                             'com_valor_produto' => $valor_produto,
-                            'com_final' => $comissao/2,
+                            'com_final' => $comissao,
                             'com_pago' => 0
                         ];
                         DB::table('tb_comissoes')->insert($dadosEntrada);
@@ -448,7 +448,7 @@ class ComissoesController extends Controller
                         'com_mes' => $mes,
                         'com_produto' => $produto,
                         'com_valor_produto' => $valor_produto,
-                        'com_final' => $comissao/2,
+                        'com_final' => $comissao,
                         'com_pago' => 0
                     ];
                     DB::table('tb_comissoes')->insert($dadosEntrada);
