@@ -279,6 +279,8 @@ class ComissoesController extends Controller
             ->orderBy('t1.id','ASC')
             ->get();
 
+            #Ignorar onde Prioridade seja - Oportunidade Hotmart ou Meio_insercao = Hotmart, ou (insercao_hotmart)R.Hotmart - (Prioridade)Recuperação Hotmart
+
         foreach ($query as $contato) {
             #Atribui comissão gerada pros e-mails aprovados
             $email = $contato->email;

@@ -12,8 +12,8 @@ $(function() {
 
     $("#loader").fadeOut();
 
-    $('.tabs-menu ul li a').click(function(){
-
+    $('.tabs-menu ul li a').click(function(e){
+        e.preventDefault();
         var a = $(this);
         var active_tab_class = 'active-tab-menu';
         var the_tab = '.' + a.attr('data-tab');
